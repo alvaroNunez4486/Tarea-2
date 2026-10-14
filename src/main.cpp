@@ -114,3 +114,30 @@ int aplicarFiltro(int nuevaMedida) {
 
   return suma / MUESTRAS;
 }
+
+
+// FUNCIÓN: MAPEO Y GENERACIÓN DE SONIDO
+void mapearYEmitirSonido(int distanciaFiltrada) {
+  // Si la mano no está en la zona útil, apagar sonido
+  if (distanciaFiltrada < DIST_MIN_CM || distanciaFiltrada > DIST_MAX_CM) {
+    noTone(PIN_BUZZER);
+    return;
+  }
+
+  int frecMin = FREC_MEDIO_MIN;
+  int frecMax = FREC_MEDIO_MAX;
+
+  if (rangoActual == GRAVE) {
+    frecMin = FREC_GRAVE_MIN;
+    frecMax = FREC_GRAVE_MAX;
+  } else if (rangoActual == AGUDO) {
+    frecMin = FREC_AGUDO_MIN;
+    frecMax = FREC_AGUDO_MAX;
+  }
+
+  // Mapeo inversamente proporcional (menor distancia -> tono más agudo)
+  int frecuencia = map(distanciaFiltrada, DIST_MIN_CM, DIST_MAX_CM, frecMax, frecMin);
+  frecuencia = constrain(frecuencia, frecMin, frecMax);
+
+  tone(PIN_BUZZER, frecuencia);
+}
