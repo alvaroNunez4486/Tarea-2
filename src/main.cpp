@@ -80,3 +80,37 @@ void leerBotonConDebounce() {
     }
   }
 }
+
+
+// FUNCIÓN: MEDIR DISTANCIA (HC-SR04)
+int medirDistancia() {
+  digitalWrite(PIN_TRIG, LOW);
+  delayMicroseconds(2);
+
+  // Pulso de disparo de 10 us
+  digitalWrite(PIN_TRIG, HIGH);
+  delayMicroseconds(10);
+  digitalWrite(PIN_TRIG, LOW);
+
+  // Tiempo del eco en microsegundos (timeout de 30 ms)
+  long duracion = pulseIn(PIN_ECHO, HIGH, 30000);
+
+  if (duracion == 0) return 0; // Lectura inválida
+
+  // Convertir tiempo a centímetros
+  return duracion / 58.2;  // o bien, su equivalente mas extenso: return (duracion * 0.0343) / 2;
+}
+
+
+// FUNCIÓN: FILTRO DE PROMEDIO MÓVIL
+int aplicarFiltro(int nuevaMedida) {
+  lecturas[indiceMuestra] = nuevaMedida;
+  indiceMuestra = (indiceMuestra + 1) % MUESTRAS;
+
+  long suma = 0;
+  for (int i = 0; i < MUESTRAS; i++) {
+    suma += lecturas[i];
+  }
+
+  return suma / MUESTRAS;
+}
