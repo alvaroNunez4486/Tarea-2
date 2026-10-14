@@ -141,3 +141,21 @@ void mapearYEmitirSonido(int distanciaFiltrada) {
 
   tone(PIN_BUZZER, frecuencia);
 }
+
+
+// BUCLE PRINCIPAL
+void loop() {
+  // 1. Revisar selección de rango continuamente
+  leerBotonConDebounce();
+
+  // 2. Medir y actualizar el sonido periódicamente
+  unsigned long tiempoActual = millis();
+  if (tiempoActual - ultimoTiempoUS >= INTERVALO_US) {
+    ultimoTiempoUS = tiempoActual;
+
+    int distBruta = medirDistancia();
+    int distFiltrada = aplicarFiltro(distBruta);
+
+    mapearYEmitirSonido(distFiltrada);
+  }
+}
