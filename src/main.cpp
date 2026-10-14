@@ -55,3 +55,28 @@ void setup() {
   Serial.begin(9600);
   Serial.println("Theremin Digital Iniciado. Rango por defecto: MEDIO");
 }
+
+
+// FUNCIÓN: LECTURA DE BOTONES CON ANTIRREBOTE
+void leerBotonConDebounce() {
+  unsigned long tiempoActual = millis();
+
+  // Si ha pasado el tiempo mínimo de estabilidad
+  if (tiempoActual - ultimoTiempoRebote > DELAY_REBOTE) {
+    if (digitalRead(PIN_BOTON_GRAVE) == LOW) {
+      rangoActual = GRAVE;
+      ultimoTiempoRebote = tiempoActual;
+      Serial.println("Rango cambiado a: GRAVE");
+    } 
+    else if (digitalRead(PIN_BOTON_MEDIO) == LOW) {
+      rangoActual = MEDIO;
+      ultimoTiempoRebote = tiempoActual;
+      Serial.println("Rango cambiado a: MEDIO");
+    } 
+    else if (digitalRead(PIN_BOTON_AGUDO) == LOW) {
+      rangoActual = AGUDO;
+      ultimoTiempoRebote = tiempoActual;
+      Serial.println("Rango cambiado a: AGUDO");
+    }
+  }
+}
