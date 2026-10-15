@@ -38,3 +38,6 @@ Si la mano se encuentra a menos de 5 cm o a más de 30 cm, la función noTone() 
 Mediante las funciones map() y constrain(), el rango de distancia se convierte a frecuencia en Hertz de forma inversamente proporcional:
 5 cm (mano muy cerca) frecuencia máxima del rango activo (nota más agudo).
 30 cm (mano alejada) frecuencia mínima del rango activo (nota más grave).
+
+<img width="602" height="456" alt="Captura de pantalla 2026-10-14 233601" src="https://github.com/user-attachments/assets/09e0b09f-ed32-4f14-8599-d60e5cc6ec72" />
+
